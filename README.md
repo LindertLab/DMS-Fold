@@ -6,7 +6,7 @@ A network which extracts burial information from deep mutational scanning data t
 
 ## Installation
 
-DMS-Fold is a modified version of OpenFold. See [OpenFold's Github](https://github.com/aqlaboratory/openfold) for instructions on installing OpenFold.
+DMS-Fold is a modified version of OpenFold. See [OpenFold's Github](https://github.com/aqlaboratory/openfold) for instructions on installation.
 
 ## Running DMS-Fold
 
