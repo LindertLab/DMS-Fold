@@ -2,7 +2,7 @@
 
 # DMS-Fold
 
-[![Static Badge](https://img.shields.io/badge/DMS--Fold-Weights-blue)](https://huggingface.co/drake463/DMS-Fold/tree/main)
+[![Static Badge](https://img.shields.io/badge/DMS--Fold-Weights-blue)](https://huggingface.co/drake463/DMS-Fold/tree/main)       [![Static Badge](https://img.shields.io/badge/DMS--Fold-TrainingSet-green)]()
 
 A network which extracts burial information from deep mutational scanning data to enhance structure prediciton.
 
