@@ -12,9 +12,9 @@ DMS-Fold is a modified version of OpenFold. See [OpenFold's Github](https://gith
 
 ## Running DMS-Fold
 
-Single mutant deep mutational scanning data should be given as a CSV with following format:
+Single mutant deep mutational scanning data should be given as a tab-seperated CSV with following format:
 
-Seq_Num    WT-Residue    Mutated-Residue  ΔΔG
+Sequence Number&nbsp;&nbsp;&nbsp;&nbsp;WT-Residue&nbsp;&nbsp;&nbsp;&nbsp;Mutated-Residue&nbsp;&nbsp;&nbsp;&nbsp;ΔΔG
 
 ```bash
 1  M  A  -0.227
@@ -23,3 +23,16 @@ Seq_Num    WT-Residue    Mutated-Residue  ΔΔG
 1  M  E  -0.053
 1  M  F  0.734
 ```  
+
+## Usage
+DMS-Fold requires a protein sequence FASTA file, CSV with dms data, databases used by OpenFold for MSA/template information. 
+```bash
+python3 predict_with_dmsfold.py 1PGA_A.fasta dms.csv --dat
+```
+
+## Network Weights
+The weights can be found on the [DMS-Fold model repository](https://huggingface.co/drake463/DMS-Fold/tree/main) on huggingface.co. Once downloaded, the weights should be added to DMS-Fold/openfold/resources/. The default path to the weights can be changed within the `predict_with_dmsfold.py` inference script.
+
+## Citing this work
+DMS-Fold paper: "TBD"
+OpenFold: 
