@@ -12,3 +12,14 @@ DMS-Fold is a modified version of OpenFold. See [OpenFold's Github](https://gith
 
 ## Running DMS-Fold
 
+Single mutant deep mutational scanning data should be given as a CSV with following format:
+
+Seq_Num    WT-Residue    Mutated-Residue  ΔΔG
+
+```bash
+1  M  A  -0.227
+1  M  C  -0.109
+1  M  D  -0.518
+1  M  E  -0.053
+1  M  F  0.734
+```  
