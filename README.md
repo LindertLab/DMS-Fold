@@ -14,7 +14,7 @@ DMS-Fold weights can be downloaded from https://huggingface.co/drake463/DMS-Fold
 
 ## Running DMS-Fold
 
-Single mutant deep mutational scanning data should be given as a tab-seperated CSV with following format:
+Single mutant deep mutational scanning thermodynamic stabilities should be given as a tab-seperated CSV with following format:
 
 Sequence Number&nbsp;&nbsp;&nbsp;&nbsp;WT-Residue&nbsp;&nbsp;&nbsp;&nbsp;Mutated-Residue&nbsp;&nbsp;&nbsp;&nbsp;ΔΔG
 
@@ -51,4 +51,3 @@ The weights can be found on the [DMS-Fold model repository](https://huggingface.
 
 ## Citing this work
 DMS-Fold paper: "TBD"
-OpenFold: 
