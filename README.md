@@ -12,7 +12,7 @@ DMS-Fold is a modified version of OpenFold. See [OpenFold's Github](https://gith
 
 DMS-Fold weights can be downloaded from https://huggingface.co/drake463/DMS-Fold/tree/main
 
-## Running DMS-Fold
+## Formmatting DMS CSV
 
 Single mutant deep mutational scanning thermodynamic stabilities should be given as a tab-seperated CSV with following format:
 
