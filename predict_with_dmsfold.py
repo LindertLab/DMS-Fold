@@ -294,7 +294,7 @@ def load_dms(dms_csv,seq):
                 num[pos] += correlations[corr[1]][corr[2]]*float(corr[3])
                 den[pos] += correlations[corr[1]][corr[2]]
     for pos in range(len(num)):
-    	dms_fitness[pos,pos,0] = burial_score(num[pos]/den[pos])
+        dms_fitness[pos,pos,0] = burial_score(num[pos]/den[pos])
             
     print(dms_fitness)
     print(f"Loadded {np.sum(np.max(dms_fitness,axis=-1))} restraints...")
@@ -381,14 +381,17 @@ def main(args):
         feature_dict['msa'] = msa[indices]
         feature_dict['deletion_matrix_int'] = feature_dict['deletion_matrix_int'][indices] #Changed to int
 
-    if args.neff_size_dependent and if not args.neff:
+    if args.neff_size_dependent:
         n = len(seq)
-        neff_var = n/25.0
+        neff_sd = n/25.0
         logger.info(
-            f"Subsampling MSA to size_dependent Neff={neff_var}..."
+            f"Subsampling MSA to size_dependent Neff={neff_sd}..."
         )
-        indices = subsample_msa_sequentially(msa, neff=neff_var)
+        indices = subsample_msa_sequentially(msa, neff=neff_sd)
         for item in feature_dict:
+            print(item)
+        feature_dict['msa'] = msa[indices]
+        feature_dict['deletion_matrix_int'] = feature_dict['deletion_matrix_int'][indices]
         
     
     processed_feature_dict = feature_processor.process_features(
@@ -482,7 +485,7 @@ if __name__ == "__main__":
              device name is accepted (e.g. "cpu", "cuda:0")"""
     )
     parser.add_argument(
-        "--checkpoint_path", type=str, default='/fs/scratch/PAS1146/drake463/training_output_final/dmsfold/DMS-Fold/13gudcuy/checkpoints/5-3749.ckpt/global_step3750/mp_rank_00_model_states.pt',
+        "--checkpoint_path", type=str, default=None,
         help="""Path to OpenFold checkpoint (.pt file)"""
     )
     parser.add_argument(

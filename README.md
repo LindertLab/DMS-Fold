@@ -8,7 +8,9 @@ A network which extracts burial information from deep mutational scanning data t
 
 ## Installation
 
-DMS-Fold is a modified version of OpenFold. See [OpenFold's Github](https://github.com/aqlaboratory/openfold) for instructions on installation.
+DMS-Fold is a modified version of OpenFold. See [OpenFold's Github](https://github.com/aqlaboratory/openfold) for instructions on installing openfold dependencies and conda requirements.
+
+DMS-Fold weights can be downloaded from https://huggingface.co/drake463/DMS-Fold/tree/main
 
 ## Running DMS-Fold
 
@@ -25,10 +27,24 @@ Sequence Number&nbsp;&nbsp;&nbsp;&nbsp;WT-Residue&nbsp;&nbsp;&nbsp;&nbsp;Mutated
 ```  
 
 ## Usage
-DMS-Fold requires a protein sequence FASTA file, CSV with dms data, databases used by OpenFold for MSA/template information. 
+DMS-Fold requires a protein sequence FASTA file, CSV with dms data, databases used by OpenFold for MSA/template information.
+ 
 ```bash
-python3 predict_with_dmsfold.py 1PGA_A.fasta dms.csv --dat
+python3 predict_with_dmsfold.py \
+    fasta.fasta \
+    dms_data.csv \
+    --checkpoint_path openfold/resources/dmsfold_weights.pt \
+    --uniref90_database_path uniref90.fasta \
+    --mgnify_database_path mgy_clusters_2018_12.fa \
+    --pdb70_database_path pdb70/pdb70 \
+    --uniclust30_database_path uniclust30/uniclust30_2018_08/uniclust30_2018_08 \
+    --bfd_database_path bfd/bfd_metaclust_clu_complete_id30_c90_final_seq.sorted_opt \
+    --jackhmmer_binary_path lib/conda/envs/openfold_venv/bin/jackhmmer \
+    --hhblits_binary_path lib/conda/envs/openfold_venv/bin/hhblits \
+    --hhsearch_binary_path lib/conda/envs/openfold_venv/bin/hhsearch \
+    --kalign_binary_path lib/conda/envs/openfold_venv/bin/kalign \
 ```
+The use of a size-dependent neff can be specified with `--neff_size_dependent`
 
 ## Network Weights
 The weights can be found on the [DMS-Fold model repository](https://huggingface.co/drake463/DMS-Fold/tree/main) on huggingface.co. Once downloaded, the weights should be added to DMS-Fold/openfold/resources/. The default path to the weights can be changed within the `predict_with_dmsfold.py` inference script.
