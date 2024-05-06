@@ -47,7 +47,7 @@ python3 predict_with_dmsfold.py \
 The use of a size-dependent neff can be specified with `--neff_size_dependent`
 
 ## Network Weights
-The weights can be found on the [DMS-Fold model repository](https://huggingface.co/drake463/DMS-Fold/tree/main) on huggingface.co. Once downloaded, the weights should be added to DMS-Fold/openfold/resources/. The default path to the weights can be changed within the `predict_with_dmsfold.py` inference script.
+The weights can be found on the [DMS-Fold model repository](https://huggingface.co/drake463/DMS-Fold/tree/main) on huggingface.co. Once downloaded, the weights should be added to DMS-Fold/openfold/resources/. The path to the weights can be specified with `--checkpoint_path'.
 
 ## Citing this work
 DMS-Fold paper: "TBD"
