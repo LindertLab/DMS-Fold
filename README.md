@@ -42,7 +42,7 @@ python3 predict_with_dmsfold.py \
     --jackhmmer_binary_path lib/conda/envs/openfold_venv/bin/jackhmmer \
     --hhblits_binary_path lib/conda/envs/openfold_venv/bin/hhblits \
     --hhsearch_binary_path lib/conda/envs/openfold_venv/bin/hhsearch \
-    --kalign_binary_path lib/conda/envs/openfold_venv/bin/kalign \
+    --kalign_binary_path lib/conda/envs/openfold_venv/bin/kalign
 ```
 The use of a size-dependent neff can be specified with `--neff_size_dependent`
 
