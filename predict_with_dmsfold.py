@@ -60,6 +60,7 @@ from openfold.utils.tensor_utils import (
 )
 
 from scripts.utils import add_data_args
+from scripts.burial_score import burial_score
 
 from openfold.data.msa_subsampling import subsample_msa_sequentially, get_eff
 
@@ -263,15 +264,8 @@ def load_models_from_command_line(args, config):
     model = model.eval()
     checkpoint_basename = get_model_basename(args.checkpoint_path)
     sd = torch.load(args.checkpoint_path)
-    #print(sd['module.model.hrf_embedder.linear.weight'])
-    #print(sd)
-    #for item in sd:
-    #    print(item['params'])
-    #sd = torch.load(args.checkpoint_path)['ema']['params']
-    # sd = {("model." + k):v for k,v in sd.items()}
 
     model.load_state_dict(sd['ema']['params'])
-    #outfile.close() 
     model = model.to(args.model_device)
     logger.info(
         f"Loaded OpenFold parameters at {args.checkpoint_path}..."
@@ -285,61 +279,27 @@ def list_files_with_extensions(dir, extensions):
     return [f for f in os.listdir(dir) if f.endswith(extensions)]
 
 def load_dms(dms_csv,seq):
-    fitness = list(np.loadtxt(dms_csv,usecols=(0,1),delimiter=',',dtype=int))
-    print('FITNESS ARRAY:')
-    print(fitness)
+    with open('openfold/resources/correlations.pkl','rb') as fp:
+        correlations = pickle.load(fp)
     n = len(seq)
     dms_fitness = np.zeros((n,n,1))
-    print(n)
-    #buried = []
-    for i in fitness:
-        #print(fitness)
-        #if fitness[i] < 0.25:
-            #buried.append[i+1]
-        #print(fitness)
-        #for i in buried:
-        pos = int(i[0]) -1
-        dms_fitness[pos,pos,0] = int(i[1])
-        #dms_fitness[:,pos,0] = 1
+    num = np.zeros(n)
+    den = np.zeros(n)
+    with open(dms_csv,'r') as fp:
+        fp = fp.readlines()
+        for i in range(len(fp)):
+            corr = fp[i].split()
+            pos = int(corr[0])-1
+            if corr[1] != 'C':
+                num[pos] += correlations[corr[1]][corr[2]]*float(corr[3])
+                den[pos] += correlations[corr[1]][corr[2]]
+    for pos in range(len(num)):
+    	dms_fitness[pos,pos,0] = burial_score(num[pos]/den[pos])
+            
     print(dms_fitness)
     print(f"Loadded {np.sum(np.max(dms_fitness,axis=-1))} restraints...")
 
     return dms_fitness
-
-#def load_labels(label_csv,seq):
-    #labels = list(np.loadtxt(label_csv,usecols=(0,)))
-
-    #if len(links.shape) == 0:
-        #links = np.array([links])
-
-    #n = len(seq)
-    #hrf_labels = np.zeros((n,n,1))
-
-    #for i in labels:
-    #    pos = int(i) - 1
-    #    for j in range(n):
-    #      hrf_labels[pos,j,0] = 1
-    #      hrf_labels[j,pos,0] = 1
-    #print(hrf_labels)
-        #if links.shape[1] == 3:
-         #   for i_, (i,j,fdr) in enumerate(links):
-         #       i = int(i) - 1 
-         #       j = int(j) - 1
-         #       crosslinks[i,j,0] = crosslinks[j,i,0] = 1 - fdr
-         #       grouping[i,j,0] = grouping[j,i,0] = groups[i_]
-        #else:
-            #for i_, (i,j) in enumerate(links):
-                #i = int(i) - 1
-                #j = int(j) - 1
-                #crosslinks[i,j,0] = crosslinks[j,i,0] = 1 - fdr
-                #grouping[i,j,0] = grouping[j,i,0] = groups[i_]
-    
-    #logger.info(
-    #print(f"Loaded {np.sum(np.max(hrf_labels,axis=-1))} restraints...")
-    #)
-
-    #return hrf_labels
-
 
 def main(args):
     # Create the output directory
@@ -347,18 +307,6 @@ def main(args):
 
     config = model_config('model_5_ptm')
     
-    #if args.distograms:
-    #    config.model.xl_embedder.distograms = True
-    
-    # template_featurizer = templates.TemplateHitFeaturizer(
-    #     mmcif_dir=args.template_mmcif_dir,
-    #     max_template_date=args.max_template_date,
-    #     max_hits=config.data.predict.max_templates,
-    #     kalign_binary_path=args.kalign_binary_path,
-    #     release_dates_path=args.release_dates_path,
-    #     obsolete_pdbs_path=args.obsolete_pdbs_path
-    # )
-
     data_processor = data_pipeline.DataPipeline(
         template_featurizer=None,
     )
@@ -412,19 +360,11 @@ def main(args):
         )
 
 
-    #if args.crosslinks.endswith('.pt'):
-    #    crosslinks = torch.load(args.crosslinks)
-    #    feature_dict['xl'] = crosslinks['xl']
-    #    if args.distograms:
-    #        feature_dict['xl_grouping'] = np.zeros((crosslinks['xl'].shape[0], crosslinks['xl'].shape[1],1))
-    #    else:
-    #        feature_dict['xl_grouping'] = crosslinks['grouping']
     if args.fitness.endswith('.csv'):
         fitness = load_dms(args.fitness, seq)
         feature_dict['dms'] = fitness
-        #feature_dict['xl_grouping'] = grouping
     else:
-        print("DMS need to be either given as a CSV or already as a tensor")
+        print("DMS need to be given as a CSV")
         sys.exit(0)
 
 
@@ -441,6 +381,16 @@ def main(args):
         feature_dict['msa'] = msa[indices]
         feature_dict['deletion_matrix_int'] = feature_dict['deletion_matrix_int'][indices] #Changed to int
 
+    if args.neff_size_dependent and if not args.neff:
+        n = len(seq)
+        neff_var = n/25.0
+        logger.info(
+            f"Subsampling MSA to size_dependent Neff={neff_var}..."
+        )
+        indices = subsample_msa_sequentially(msa, neff=neff_var)
+        for item in feature_dict:
+        
+    
     processed_feature_dict = feature_processor.process_features(
         feature_dict, mode='predict',
     )
@@ -560,6 +510,9 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--skip_relaxation", action="store_true", default=False,
+    )
+    parser.add_argument(
+        "--neff_size_dependent", action="store_true", default=False,
     )
     parser.add_argument(
         "--neff", type=float,

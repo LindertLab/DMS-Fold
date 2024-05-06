@@ -68,7 +68,7 @@ class OpenFoldSingleDataset(torch.utils.data.Dataset):
         max_template_date: str,
         config: mlc.ConfigDict,
         chain_data_cache_path: Optional[str] = None,
-        kalign_binary_path: str = '/users/PAS1146/day756/hrf_fold/binaries/local_installs/kalign-3.3.5/build/src/kalign',
+        kalign_binary_path: str = '',
         max_template_hits: int = 4,
         obsolete_pdbs_file_path: Optional[str] = None,
         template_release_dates_cache_path: Optional[str] = None,
@@ -154,7 +154,6 @@ class OpenFoldSingleDataset(torch.utils.data.Dataset):
 
         if(alignment_index is not None):
             self._chain_ids = list(filename.split('.')[0] for filename in os.listdir(data_dir))
-            #self._chain_ids = list(alignment_index.keys())
         else:
             self._chain_ids = list(os.listdir(alignment_dir))
 
@@ -192,21 +191,13 @@ class OpenFoldSingleDataset(torch.utils.data.Dataset):
         self._chain_id_to_idx_dict = {
             chain: i for i, chain in enumerate(self._chain_ids)
         }
-        #print(self._chain_id_to_idx_dict) 
         if self.dms_dir is None:
                 self.dmss = {}
         else:
             self.dmss = {
                 self._chain_id_to_idx_dict[os.path.splitext(name)[0][:6]] : torch.load(self.dms_dir + name)
                 for name in os.listdir(self.dms_dir) if os.path.splitext(name)[0][:6] in self._chain_id_to_idx_dict
-                #self.reverse_mapping[os.path.splitext(name)[0][:6]] : torch.load(self.crosslink_dir + '/' + name)
-                #for name in os.listdir(self.crosslink_dir) if os.path.splitext(name)[0][:6] in self.reverse_mapping
             }
-        #for name in os.listdir(self.dms_dir):
-            #print(name)
-            #print(self.dms_dir+'/'+name)
-        #print('DMSS')
-        #print(self.dmss)
         template_featurizer = templates.TemplateHitFeaturizer(
             mmcif_dir=template_mmcif_dir,
             max_template_date=max_template_date,
@@ -387,7 +378,6 @@ def get_stochastic_train_filter_prob(
     chain_length = len(chain_data_cache_entry["seq"])
     probabilities.append((1 / 512) * (max(min(chain_length, 512), 256)))
 
-    # Risk of underflow here?
     out = 1
     for p in probabilities:
         out *= p
@@ -576,7 +566,6 @@ class OpenFoldDataLoader(torch.utils.data.DataLoader):
 
         def _batch_prop_gen(iterator):
             for batch in iterator:
-                #print(batch)
                 yield self._add_batch_properties(batch)
 
         return _batch_prop_gen(it)
@@ -597,7 +586,7 @@ class OpenFoldDataModule(pl.LightningDataModule):
         val_alignment_dir: Optional[str] = None,
         predict_data_dir: Optional[str] = None,
         predict_alignment_dir: Optional[str] = None,
-        kalign_binary_path: str = '/fs/scratch/PAS1146/day756/local_binaries/local_installs/kalign-3.3.5',
+        kalign_binary_path: str = '',
         train_filter_path: Optional[str] = None,
         distillation_filter_path: Optional[str] = None,
         obsolete_pdbs_file_path: Optional[str] = None,
@@ -688,13 +677,12 @@ class OpenFoldDataModule(pl.LightningDataModule):
         )
 
         if(self.training_mode):
-            print('DMSFOLD!!!')
             train_dataset = dataset_gen(
                 data_dir=self.train_data_dir,
                 chain_data_cache_path=self.train_chain_data_cache_path,
                 alignment_dir=self.train_alignment_dir,
                 filter_path=self.train_filter_path,
-                dms_dir = '/users/PAA0030/drake463/dmsfold/trRosetta/dms_ddg_dig_int/',
+                dms_dir = '',
                 max_template_hits=self.config.train.max_template_hits,
                 shuffle_top_k_prefiltered=
                     self.config.train.shuffle_top_k_prefiltered,
@@ -745,7 +733,7 @@ class OpenFoldDataModule(pl.LightningDataModule):
                     data_dir=self.val_data_dir,
                     alignment_dir=self.val_alignment_dir,
                     filter_path=None,
-                    dms_dir='/users/PAA0030/drake463/dmsfold/trRosetta/dms_val_ddg_dig_int/',
+                    dms_dir='',
                     max_template_hits=self.config.eval.max_template_hits,
                     mode="eval",
                     alignment_index=self.alignment_index, #ZD: Added line
