@@ -1,3 +1,0 @@
-# ninja log v5
-1	20222	1696525429711980000	/users/PAA0030/drake463/dmsfold/openfold/build/temp.linux-x86_64-3.8/openfold/utils/kernel/csrc/softmax_cuda.o	ae5ca426d6741b8
-2	153391	1696525562880082000	/users/PAA0030/drake463/dmsfold/openfold/build/temp.linux-x86_64-3.8/openfold/utils/kernel/csrc/softmax_cuda_kernel.o	b0b36bd0e0a1bc1d
