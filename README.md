@@ -44,7 +44,7 @@ python3 predict_with_dmsfold.py \
     --hhsearch_binary_path lib/conda/envs/openfold_venv/bin/hhsearch \
     --kalign_binary_path lib/conda/envs/openfold_venv/bin/kalign
 ```
-The use of MSA-Subsampling can be specified with the use of `-neff` and size-dependent neff can be specified with `--neff_size_dependent`
+The use of MSA-Subsampling can be specified with `-neff` and size-dependent neff can be specified with `--neff_size_dependent`
 
 ## Network Weights
 The weights can be found on the [DMS-Fold model repository](https://huggingface.co/LindertLab/DMS-Fold/tree/main) on huggingface.co. Once downloaded, the weights should be added to DMS-Fold/openfold/resources/. The path to the weights can be specified with `--checkpoint_path'.
