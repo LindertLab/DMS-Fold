@@ -27,7 +27,7 @@ Sequence Number&nbsp;&nbsp;&nbsp;&nbsp;WT-Residue&nbsp;&nbsp;&nbsp;&nbsp;Mutated
 ```  
 
 ## Usage
-DMS-Fold requires a protein sequence FASTA file, CSV with dms data, databases used by OpenFold for MSA/template information.
+DMS-Fold requires a protein sequence FASTA file, CSV with dms data, and the databases used by OpenFold for MSA/template information.
  
 ```bash
 python3 predict_with_dmsfold.py \
