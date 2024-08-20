@@ -2,7 +2,7 @@
 
 # DMS-Fold
 
-[![Static Badge](https://img.shields.io/badge/DMS--Fold-Weights-blue)](https://huggingface.co/drake463/DMS-Fold/tree/main)       [![Static Badge](https://img.shields.io/badge/DMS--Fold-TrainingSet-green)]()
+[![Static Badge](https://img.shields.io/badge/DMS--Fold-Weights-blue)](https://huggingface.co/LindertLab/DMS-Fold/tree/main)       [![Static Badge](https://img.shields.io/badge/DMS--Fold-TrainingSet-green)](https://huggingface.co/datasets/LindertLab/dmsfold_training_set)
 
 A network which extracts burial information from deep mutational scanning data to enhance structure prediciton.
 
@@ -12,9 +12,9 @@ DMS-Fold is a modified version of OpenFold. See [OpenFold's Github](https://gith
 
 DMS-Fold weights can be downloaded from https://huggingface.co/drake463/DMS-Fold/tree/main
 
-## Running DMS-Fold
+## Formatting DMS CSV
 
-Single mutant deep mutational scanning data should be given as a tab-seperated CSV with following format:
+Single mutant deep mutational scanning thermodynamic stabilities should be given as a tab-seperated CSV with following format:
 
 Sequence Number&nbsp;&nbsp;&nbsp;&nbsp;WT-Residue&nbsp;&nbsp;&nbsp;&nbsp;Mutated-Residue&nbsp;&nbsp;&nbsp;&nbsp;ΔΔG
 
@@ -27,7 +27,7 @@ Sequence Number&nbsp;&nbsp;&nbsp;&nbsp;WT-Residue&nbsp;&nbsp;&nbsp;&nbsp;Mutated
 ```  
 
 ## Usage
-DMS-Fold requires a protein sequence FASTA file, CSV with dms data, databases used by OpenFold for MSA/template information.
+DMS-Fold requires a protein sequence FASTA file, CSV with dms data, and the databases used by OpenFold for MSA/template information.
  
 ```bash
 python3 predict_with_dmsfold.py \
@@ -42,13 +42,12 @@ python3 predict_with_dmsfold.py \
     --jackhmmer_binary_path lib/conda/envs/openfold_venv/bin/jackhmmer \
     --hhblits_binary_path lib/conda/envs/openfold_venv/bin/hhblits \
     --hhsearch_binary_path lib/conda/envs/openfold_venv/bin/hhsearch \
-    --kalign_binary_path lib/conda/envs/openfold_venv/bin/kalign \
+    --kalign_binary_path lib/conda/envs/openfold_venv/bin/kalign
 ```
-The use of a size-dependent neff can be specified with `--neff_size_dependent`
+The use of MSA-subsampling can be specified with `--neff` and size-dependent neff can be specified with `--neff_size_dependent`
 
 ## Network Weights
-The weights can be found on the [DMS-Fold model repository](https://huggingface.co/drake463/DMS-Fold/tree/main) on huggingface.co. Once downloaded, the weights should be added to DMS-Fold/openfold/resources/. The default path to the weights can be changed within the `predict_with_dmsfold.py` inference script.
+The weights can be found on the [DMS-Fold model repository](https://huggingface.co/LindertLab/DMS-Fold/tree/main) on huggingface.co. Once downloaded, the weights should be added to DMS-Fold/openfold/resources/. The path to the weights can be specified with `--checkpoint_path'.
 
 ## Citing this work
 DMS-Fold paper: "TBD"
-OpenFold: 
