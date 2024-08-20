@@ -1,1 +1,1 @@
-python3 ~/DMS-Fold/predict_with_dmsfold.py ./1PWT_A.fasta ./1PWT_A_dms.csv --output_dir output/ --use_precomputed_alignments ./1PWT_A/ --save_outputs --neff_size_dependent --checkpoint_path ~/weights/mp_rank_00_model_states.pt
+python3 /users/drake463/DMS-Fold/predict_with_dmsfold.py ./1PWT_A.fasta ./1PWT_A_dms.csv --output_dir output/ --use_precomputed_alignments ./1PWT_A/ --save_outputs --neff_size_dependent --checkpoint_path /users/drake463/weights/mp_rank_00_model_states.pt
