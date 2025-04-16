@@ -4,17 +4,19 @@
 
 [![Static Badge](https://img.shields.io/badge/DMS--Fold-Weights-blue)](https://huggingface.co/LindertLab/DMS-Fold/tree/main)       [![Static Badge](https://img.shields.io/badge/DMS--Fold-TrainingSet-green)](https://huggingface.co/datasets/LindertLab/dmsfold_training_set)
 
-A network which extracts burial information from deep mutational scanning data to enhance structure prediciton.
+DMS-Fold is a network which extracts burial information from deep mutational scanning data to enhance structure prediciton. It expands OpenFold with additional DMS-derived embeddings to the network's pair representation, informing about potential burial restraints.
+
+The network currently only supports mutation ΔΔGs, not necessarily any metric of mutational fitness.
 
 ## Installation
 
 DMS-Fold is a modified version of OpenFold. See [OpenFold's Github](https://github.com/aqlaboratory/openfold) for instructions on installing openfold dependencies and conda requirements.
 
-DMS-Fold weights can be downloaded from https://huggingface.co/drake463/DMS-Fold/tree/main
+DMS-Fold weights can be downloaded from https://huggingface.co/drake463/DMS-Fold/tree/main. The path to the weights can be specified via '--checkpoint_path', which by default is not set.
 
 ## Formatting DMS CSV
 
-Single mutant deep mutational scanning thermodynamic stabilities should be given as a tab-seperated CSV with following format:
+Single mutant deep mutational scanning thermodynamic stabilities (ΔΔGs) should be given as a tab-seperated CSV. The first column should correspond to the residue sequence number, the second being the wildtype residue one-letter-code, the third is the mutated residue, and the fourth being the measured ΔΔG for the corresponding mutation. with following format:
 
 Sequence Number&nbsp;&nbsp;&nbsp;&nbsp;WT-Residue&nbsp;&nbsp;&nbsp;&nbsp;Mutated-Residue&nbsp;&nbsp;&nbsp;&nbsp;ΔΔG
 
@@ -47,7 +49,7 @@ python3 predict_with_dmsfold.py \
 The use of MSA-subsampling can be specified with `--neff` and size-dependent neff can be specified with `--neff_size_dependent`
 
 ## Example
-An example command with a provided fasta file, dms csv, and precomputed alignments for 1PWT are located within the directory named 'example'. Expected outputs of relaxed and unrelaxed DMS-Fold predictions and feature pickle file are also provided.
+An example command with a provided fasta file, dms csv, and precomputed alignments for 1PWT are located within the directory named 'example'. Expected outputs of relaxed and unrelaxed DMS-Fold predictions and feature pickle file are also provided. To enable deterministic predictions, a singular seed should be specified with '--seed.'
 
 ## Network Weights
 The weights can be found on the [DMS-Fold model repository](https://huggingface.co/LindertLab/DMS-Fold/tree/main) on huggingface.co. Once downloaded, the weights should be added to DMS-Fold/openfold/resources/. The path to the weights can be specified with `--checkpoint_path'.
