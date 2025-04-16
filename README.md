@@ -16,7 +16,7 @@ DMS-Fold weights can be downloaded from https://huggingface.co/drake463/DMS-Fold
 
 ## Formatting DMS CSV
 
-Single mutant deep mutational scanning thermodynamic stabilities (ΔΔGs) should be given as a tab-seperated CSV. The first column should correspond to the residue sequence number, the second being the wildtype residue one-letter-code, the third is the mutated residue, and the fourth being the measured ΔΔG for the corresponding mutation. with following format:
+Single mutant deep mutational scanning thermodynamic stabilities (ΔΔGs) should be given as a tab-seperated CSV. The first column should correspond to the residue sequence number, the second being the wildtype residue one-letter-code, the third is the mutated residue, and the fourth being the measured ΔΔG for the corresponding mutation.
 
 Sequence Number&nbsp;&nbsp;&nbsp;&nbsp;WT-Residue&nbsp;&nbsp;&nbsp;&nbsp;Mutated-Residue&nbsp;&nbsp;&nbsp;&nbsp;ΔΔG
 
