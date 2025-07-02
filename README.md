@@ -2,7 +2,8 @@
 
 # DMS-Fold
 
-[![Static Badge](https://img.shields.io/badge/DMS--Fold-Weights-green)](https://huggingface.co/LindertLab/DMS-Fold/tree/main)       [![Static Badge](https://img.shields.io/badge/DMS--Fold-TrainingSet-green)](https://huggingface.co/datasets/LindertLab/dmsfold_training_set)      [![Static Badge](https://img.shields.io/badge/DMS--Fold-TestSets-yellow)](https://huggingface.co/datasets/LindertLab/megascale_casp14_cameo_sets)
+[![Static Badge](https://img.shields.io/badge/DMS--Fold-Weights-green)](https://huggingface.co/LindertLab/DMS-Fold/tree/main)       [![Static Badge](https://img.shields.io/badge/DMS--Fold-TrainingSet-green)](https://huggingface.co/datasets/LindertLab/dmsfold_training_set)      [![Static Badge](https://img.shields.io/badge/DMS--Fold-TestSets-yellow)](https://huggingface.co/datasets/LindertLab/megascale_casp14_cameo_sets)    [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.15793742.svg)](https://doi.org/10.5281/zenodo.15793742)
+
 
 DMS-Fold is a network which extracts burial information from deep mutational scanning data to enhance structure prediciton. It expands OpenFold with additional DMS-derived embeddings to the network's pair representation, informing about potential burial restraints.
 
