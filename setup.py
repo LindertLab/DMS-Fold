@@ -119,7 +119,7 @@ setup(
     author_email='jennifer.wei@omsf.io',
     license='Apache License, Version 2.0',
     url='https://github.com/aqlaboratory/openfold',
-    packages=find_packages(exclude=["tests", "scripts"]),
+    packages=find_packages(exclude=["tests"]),
     include_package_data=True,
     package_data={
         "openfold": ['utils/kernel/csrc/*'],
